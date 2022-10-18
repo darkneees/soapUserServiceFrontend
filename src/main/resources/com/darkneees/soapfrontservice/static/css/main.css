@@ -1,0 +1,15 @@
+
+.actions-button {
+    -fx-min-width: 120;
+    -fx-min-height: 40;
+    -fx-font-size: 20;
+}
+
+.actions-search-field {
+    -fx-min-height: 40;
+    -fx-font-size: 18;
+}
+
+.actions-table {
+    -fx-font-size: 16;
+}

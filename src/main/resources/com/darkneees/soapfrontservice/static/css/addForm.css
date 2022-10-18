@@ -1,0 +1,20 @@
+.label-title {
+    -fx-font-size: 20;
+    -fx-font-family: "Comic Sans MS";
+}
+
+.label-error {
+    -fx-text-fill: red;
+}
+
+.vbox-social {
+    -fx-border-insets: 0 10 0 0;
+    -fx-border-width: 0 2 0 0;
+    -fx-border-color: black;
+}
+
+.hbox-social-roles {
+    -fx-border-insets: 0 0 6 0;
+    -fx-border-width: 2 0 2 0;
+    -fx-border-color: black
+}
