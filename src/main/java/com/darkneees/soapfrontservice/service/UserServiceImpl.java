@@ -6,6 +6,8 @@ import com.darkneees.soapfrontservice.entity.User;
 import com.darkneees.soapfrontservice.mapper.ListUserMapper;
 import com.darkneees.soapfrontservice.mapper.SocialMapper;
 import com.darkneees.soapfrontservice.mapper.UserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import users_soap.api.*;
 
 import java.util.List;
@@ -13,10 +15,19 @@ import java.util.concurrent.CompletableFuture;
 
 public class UserServiceImpl implements UserService {
 
+    private static UserServiceImpl INSTANCE;
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     UserServiceSoapHttpService soap;
 
-    public UserServiceImpl() {
+    private UserServiceImpl() {
         this.soap = new UserServiceSoapHttpService();
+    }
+
+    public static UserServiceImpl getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new UserServiceImpl();
+        }
+        return INSTANCE;
     }
 
     @Override
@@ -24,8 +35,13 @@ public class UserServiceImpl implements UserService {
         return CompletableFuture.supplyAsync(() -> {
             GetAllUsersResponse response = soap.getUserServiceSoapHttpSoap11()
                     .getAllUsers(new GetAllUsersRequest());
+            log.info("Try get all users");
+            log.info("Service status: " + response.getStatus().isSuccess());
             if(response.getStatus().isSuccess()) return ListUserMapper.INSTANCE.toListUsers(response.getUsers());
-            else throw new RuntimeException(response.getStatus().getErrors());
+            else {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -35,8 +51,13 @@ public class UserServiceImpl implements UserService {
             GetUserByUsernameRequest request = new GetUserByUsernameRequest();
             request.setUsername(username);
             GetUserByUsernameResponse response = soap.getUserServiceSoapHttpSoap11().getUserByUsername(request);
+            log.info("Try get user with username {}", username);
+            log.info("Service status: " + response.getStatus().isSuccess());
             if(response.getStatus().isSuccess()) return UserMapper.INSTANCE.toUser(response.getUsers());
-            else throw new RuntimeException(response.getStatus().getErrors());
+            else {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -46,7 +67,12 @@ public class UserServiceImpl implements UserService {
             AddUserRequest request = new AddUserRequest();
             request.setUser(UserMapper.INSTANCE.toUserInfo(user));
             AddUserResponse response = soap.getUserServiceSoapHttpSoap11().addUser(request);
-            if(!response.getServiceStatus().isSuccess()) throw new RuntimeException(response.getServiceStatus().getErrors());
+            log.info("Try add user");
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -56,7 +82,12 @@ public class UserServiceImpl implements UserService {
             DeleteUserByUsernameRequest request = new DeleteUserByUsernameRequest();
             request.setUsername(username);
             DeleteUserByUsernameResponse response = soap.getUserServiceSoapHttpSoap11().deleteUserByUsername(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Try delete user with username: {}", username);
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -67,7 +98,11 @@ public class UserServiceImpl implements UserService {
             request.setUsername(username);
             request.setRole(id);
             DeleteRoleByUserResponse response = soap.getUserServiceSoapHttpSoap11().deleteRoleByUser(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -77,7 +112,12 @@ public class UserServiceImpl implements UserService {
             EditUserByUsernameRequest request = new EditUserByUsernameRequest();
             request.setUser(UserMapper.INSTANCE.toUserInfo(user));
             EditUserByUsernameResponse response = soap.getUserServiceSoapHttpSoap11().editUserByUsername(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Try edit user with username: {}", user.getUsername());
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -88,7 +128,11 @@ public class UserServiceImpl implements UserService {
             request.setRole(id);
             request.setUsername(username);
             AddUserRolesResponse response = soap.getUserServiceSoapHttpSoap11().addUserRoles(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -99,7 +143,11 @@ public class UserServiceImpl implements UserService {
             request.setUsername(username);
             request.setSocial(SocialMapper.INSTANCE.toSocialInfo(social));
             AddSocialResponse response = soap.getUserServiceSoapHttpSoap11().addSocial(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 
@@ -110,7 +158,11 @@ public class UserServiceImpl implements UserService {
             request.setIdentifierSocial(identifierSocial);
             request.setUsername(username);
             DeleteSocialResponse response = soap.getUserServiceSoapHttpSoap11().deleteSocial(request);
-            if(!response.getStatus().isSuccess()) throw new RuntimeException(response.getStatus().getErrors());
+            log.info("Service status: " + response.getStatus().isSuccess());
+            if(!response.getStatus().isSuccess()) {
+                log.error(response.getStatus().getErrors());
+                throw new RuntimeException(response.getStatus().getErrors());
+            }
         });
     }
 }

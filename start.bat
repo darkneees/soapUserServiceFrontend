@@ -1,0 +1,2 @@
+jpackage --input target --name UserSoapFX --main-jar C:\Users\pc\Desktop\soapFrontService\target\soapFrontService-1.0-SNAPSHOT.jar --main-class com.darkneees.soapfrontservice.SoapApplication --type msi --java-options '--enable-preview'
+rem Valid values are: {"app-image", "exe", "msi", "rpm", "deb", "pkg", "dmg"}

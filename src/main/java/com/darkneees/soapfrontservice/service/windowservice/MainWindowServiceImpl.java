@@ -25,11 +25,14 @@ public class MainWindowServiceImpl implements WindowService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.stage = stage;
-        stage.setOnCloseRequest((e) -> Platform.exit());
+        stage.setOnCloseRequest((e) -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.setTitle("Soap service");
         stage.setScene(scene);
         stage.show();
+        this.stage = stage;
     }
 
     public int getWidth() {
