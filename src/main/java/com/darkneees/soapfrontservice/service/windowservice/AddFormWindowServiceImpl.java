@@ -52,6 +52,7 @@ public class AddFormWindowServiceImpl extends Task<Void> implements WindowServic
             }
             AddFormController controller = fxmlLoader.getController();
             controller.setEditUser(user);
+            controller.setStage(stage);
             stage.setTitle("Add/Edit service");
             stage.setScene(scene);
             stage.show();

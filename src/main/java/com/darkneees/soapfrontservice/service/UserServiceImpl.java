@@ -12,12 +12,15 @@ import users_soap.api.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl INSTANCE;
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     UserServiceSoapHttpService soap;
+    ExecutorService service = Executors.newFixedThreadPool(8);
 
     private UserServiceImpl() {
         this.soap = new UserServiceSoapHttpService();
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -88,7 +91,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -118,7 +121,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -133,7 +136,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override
@@ -148,7 +151,7 @@ public class UserServiceImpl implements UserService {
                 log.error(response.getStatus().getErrors());
                 throw new RuntimeException(response.getStatus().getErrors());
             }
-        });
+        }, service);
     }
 
     @Override

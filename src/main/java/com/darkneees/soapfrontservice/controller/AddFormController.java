@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class AddFormController {
     private List<Role> roles;
 
     private User editUser;
+    private Stage stage;
 
     @FXML
     public void initialize() {
@@ -96,6 +98,7 @@ public class AddFormController {
 
             if(editUser == null) userService.addUser(user).join();
             else userService.editUser(user).join();
+            stage.close();
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -176,5 +179,9 @@ public class AddFormController {
             identifier.setText(el.getNameSocial());
             nameSocial.setText(el.getNameSocial());
         });
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

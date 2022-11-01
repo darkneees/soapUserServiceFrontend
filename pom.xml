@@ -135,8 +135,8 @@
                             <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
-<!--                                    <wsdl>http://51.178.38.149:8080/userService/ws/users.wsdl</wsdl>-->
-                                    <wsdl>http://localhost:8080/userService/ws/users.wsdl</wsdl>
+                                    <wsdl>http://51.178.38.149:8080/userService/ws/users.wsdl</wsdl>
+<!--                                    <wsdl>http://localhost:8080/userService/ws/users.wsdl</wsdl>-->
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

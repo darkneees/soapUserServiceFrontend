@@ -105,10 +105,10 @@ public class MainTest {
 
     @Test
     public void addMoreUsers() {
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        CountDownLatch latch = new CountDownLatch(1000);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        CountDownLatch latch = new CountDownLatch(5000);
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 5000; i++) {
             int finalI = i;
             Runnable runnable = () -> {
                 User user = new User();
@@ -118,7 +118,7 @@ public class MainTest {
                 user.setPassword("Pass_" + finalI);
                 user.setAge(finalI);
 
-                user.setRoleSet(Set.of(new Role(1L), new Role(2L)));
+//                user.setRoleSet(Set.of(new Role(1L), new Role(2L))); 2.24
                 userService.addUser(user).join();
                 latch.countDown();
             };
@@ -130,7 +130,6 @@ public class MainTest {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
